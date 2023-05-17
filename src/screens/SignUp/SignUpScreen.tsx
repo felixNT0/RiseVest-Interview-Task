@@ -1,10 +1,10 @@
 import React from 'react';
 import SignUp from '../../components/SignUp/SignUp';
 
-function SignUpScreen({navigation}: any) {
+function SignUpScreen() {
   return (
     <>
-      <SignUp navigation={navigation} />
+      <SignUp />
     </>
   );
 }

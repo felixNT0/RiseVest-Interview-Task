@@ -2,8 +2,8 @@
 import React from 'react';
 import {
   Dimensions,
+  FlatList,
   Image,
-  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -22,16 +22,18 @@ import {
 } from '../../queries/GetDailyQuotes/GetDailyQuotes';
 import {styles} from '../../styles/HomeStyles/HomeStyles';
 import AppLoader from '../AppLoader/AppLoader';
-import BottomNavigationBar from '../BottomTabs/BottomTabs';
 import HomeCard from './HomeCard';
 import HomeNavBar from './HomeNavBar';
 import HomeQuote from './HomeQuote';
 
+import {useNavigation} from '@react-navigation/native';
 import {RFValue} from 'react-native-responsive-fontsize';
+import PlanCard from '../AllPlans/PlanCard';
+import BottomNavigationBar from '../BottomTabs/BottomTabs';
 
 const {height} = Dimensions.get('window');
 
-function Home({navigation}: any) {
+export default function Home() {
   const {data, isLoading: loading} = useQuery(
     [GET_DAILY_QUOTE],
     getDailyQuotes,
@@ -42,14 +44,14 @@ function Home({navigation}: any) {
     getAllPlans,
   );
 
+  const navigation: any = useNavigation();
+
   const {isLoading} = useAppContext();
 
-  if (loading && isLoading && isloading) {
-    return <AppLoader />;
-  }
-  return (
-    <ScrollView>
-      <HomeNavBar />
+  const flatListData = [{id: '1', title: 'Single Item'}]; // Array with a single item
+
+  const renderItem = () => (
+    <>
       <HomeCard />
       <TouchableOpacity
         style={styles.add_money_button}
@@ -71,7 +73,6 @@ function Home({navigation}: any) {
           Add money
         </Text>
       </TouchableOpacity>
-
       <View style={styles.create_and_view_plan}>
         <Text
           style={{
@@ -90,6 +91,11 @@ function Home({navigation}: any) {
             gap: 1,
           }}>
           <Text
+            onPress={() => {
+              if (plans?.item_count !== 0) {
+                navigation.navigate(navigationString.ALL_PLANS);
+              }
+            }}
             style={{
               color: plans?.item_count !== 0 ? '#0898A0' : '#94A1AD',
               fontSize: RFValue(18, height),
@@ -105,7 +111,6 @@ function Home({navigation}: any) {
           />
         </View>
       </View>
-
       {plans && plans.item_count === 0 && (
         <Text
           style={{
@@ -117,28 +122,43 @@ function Home({navigation}: any) {
           Start your investment journey by creating a plan
         </Text>
       )}
-      <TouchableOpacity
-        style={styles.create_investment_button}
-        onPress={() => {
-          navigation.navigate(navigationString.CREATE_A_PLAN);
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 30,
         }}>
-        <View style={styles.main_create_inventment_button}>
-          <Icon
-            name={'add'}
-            size={30}
-            color={plans?.item_count !== 0 ? '#0898A0' : '#94A1AD'}
-          />
-        </View>
-        <Text
-          style={{
-            color: 'black',
-            fontWeight: '700',
-            fontSize: RFValue(14, height),
-            marginTop: 10,
+        <TouchableOpacity
+          style={styles.create_investment_button}
+          onPress={() => {
+            navigation.navigate(navigationString.CREATE_A_PLAN);
           }}>
-          Create an investment plan
-        </Text>
-      </TouchableOpacity>
+          <View style={styles.main_create_inventment_button}>
+            <Icon
+              name={'add'}
+              size={30}
+              color={plans?.item_count !== 0 ? '#0898A0' : '#94A1AD'}
+            />
+          </View>
+          <Text
+            style={{
+              color: 'black',
+              fontWeight: '700',
+              fontSize: RFValue(14, height),
+              marginTop: 10,
+            }}>
+            Create an investment plan
+          </Text>
+        </TouchableOpacity>
+        <PlanCard
+          cardWidth={188}
+          cardHeight={243}
+          plan_name={plans?.items[plans?.item_count - 1]?.plan_name}
+          target_amount={plans?.items[plans?.item_count - 1]?.target_amount}
+          id={plans?.items[plans?.item_count - 1]?.id}
+        />
+      </View>
       <View style={styles.contact_us}>
         <View
           style={{
@@ -175,12 +195,25 @@ function Home({navigation}: any) {
           style={{
             width: 123,
             height: 37.43,
+            marginBottom: 70,
           }}
         />
       </View>
-      <BottomNavigationBar navigation={navigation} />
-    </ScrollView>
+    </>
+  );
+
+  if (loading && isLoading && isloading) {
+    return <AppLoader />;
+  }
+  return (
+    <View style={{flex: 1}}>
+      <HomeNavBar />
+      <FlatList
+        data={flatListData}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+      />
+      <BottomNavigationBar />
+    </View>
   );
 }
-
-export default Home;

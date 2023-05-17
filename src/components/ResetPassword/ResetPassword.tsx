@@ -10,14 +10,17 @@ import {
 } from 'react-native';
 import navigationString from '../../navigations/navigationString';
 import AppOtpCodeKeyboard from '../AppOtpCodeKeyboard/AppOtpCodeKeyboard';
-import CreatePlanHeader from '../CreatePlan/CreatePlanHeader';
 import OTPInputField from '../OTPInputField/OTPInputField';
 
+import {useNavigation} from '@react-navigation/native';
 import {RFValue} from 'react-native-responsive-fontsize';
+import AppNavigationAndTextHeader from '../AppNavigationAndTextHeader/AppNavigationAndTextHeader';
 
 const {height} = Dimensions.get('window');
 
-const ResetPassword = ({navigation}: any) => {
+const ResetPassword = () => {
+  const navigation: any = useNavigation();
+
   const [otpValue, setOtpValue] = useState('');
 
   const handleKeyPress = (value: any) => {
@@ -35,7 +38,7 @@ const ResetPassword = ({navigation}: any) => {
   return (
     <ScrollView keyboardShouldPersistTaps="never">
       <View style={styles.container}>
-        <CreatePlanHeader
+        <AppNavigationAndTextHeader
           title="Create a 6-digit PIN"
           IconName="arrow-back-outline"
           onPress={() => {

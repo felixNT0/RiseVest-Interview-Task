@@ -65,10 +65,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
-    margin: 10,
+    marginHorizontal: 10,
     padding: 10,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     elevation: 3,
+    marginTop: 70,
   },
   price: {
     color: '#333333',

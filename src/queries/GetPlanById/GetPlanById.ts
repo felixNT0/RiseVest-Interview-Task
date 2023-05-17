@@ -1,4 +1,3 @@
-import {AxiosResponse} from 'axios';
 import http from '../../api/http';
 
 export type Plans = {
@@ -8,7 +7,7 @@ export type Plans = {
   plan_id: string;
 };
 
-export type TGetAllPlansResponse = AxiosResponse<{
+export type TGetAllPlansResponse = {
   id: string;
   created_at: string;
   plan_name: string;
@@ -18,7 +17,9 @@ export type TGetAllPlansResponse = AxiosResponse<{
   maturity_date: string;
   user_id: string;
   returns: Plans[];
-}>;
+};
+
+export const GET_PLANS_BY_ID = 'GET_PLANS_BY_ID';
 
 export const getPlanById = (id: string): Promise<TGetAllPlansResponse> => {
   return http.get(`/plans/${id}`);

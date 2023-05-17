@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Dimensions, StyleSheet, Text, TextInput, View} from 'react-native';
 
 import {RFValue} from 'react-native-responsive-fontsize';
+import {AppLabelTextInputType} from '../../types/AppLabelTextInputType/AppLabelTextInputType';
 
 const {height} = Dimensions.get('window');
 const AppLabelTextInput = ({
@@ -12,7 +13,7 @@ const AppLabelTextInput = ({
   textContentTypeEmail,
   keyboardType,
   dontShowLabel,
-}: any) => {
+}: AppLabelTextInputType) => {
   const [borderWidth, setBorderWidth] = useState(1);
 
   return (

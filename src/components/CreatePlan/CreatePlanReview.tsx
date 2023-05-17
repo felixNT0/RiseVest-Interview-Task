@@ -11,21 +11,31 @@ import {
 import AppButton from '../AppButton/AppButton';
 import AppLoader from '../AppLoader/AppLoader';
 import {CreatePlanChartReview} from './CreatePlanChartReview';
-import CreatePlanHeader from './CreatePlanHeader';
 
+import {useNavigation} from '@react-navigation/native';
 import {RFValue} from 'react-native-responsive-fontsize';
+import navigationString from '../../navigations/navigationString';
+import AppNavigationAndTextHeader from '../AppNavigationAndTextHeader/AppNavigationAndTextHeader';
+import {defaultCreatePlanUserInputType} from './CreatePlan';
 
 const {height} = Dimensions.get('window');
+
+interface Props {
+  values: defaultCreatePlanUserInputType;
+  setCurrentStepIndex: (value: number) => void;
+  handleBack: () => void;
+  setSumit: (value: boolean) => void;
+}
 
 function CreatePlanReview({
   values,
   setCurrentStepIndex,
   handleBack,
   setSumit,
-}: any) {
-  const year = values.maturity_date.getFullYear();
-  const day = values.maturity_date.getDate();
-  const month = values.maturity_date.toLocaleString('default', {
+}: Props) {
+  const year = values?.maturity_date.getFullYear();
+  const day = values?.maturity_date.getDate();
+  const month = values?.maturity_date.toLocaleString('default', {
     month: 'long',
   });
 
@@ -35,13 +45,13 @@ function CreatePlanReview({
 
   const startYear = currentDate.getFullYear();
   const startMonth = currentDate.getMonth();
-  const endYear = values.maturity_date.getFullYear();
-  const endMonth = values.maturity_date.getMonth();
+  const endYear = values?.maturity_date.getFullYear();
+  const endMonth = values?.maturity_date.getMonth();
 
   const numberOfMonths =
     (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
 
-  const monthlyInvestment = values.target_amount / numberOfMonths;
+  const monthlyInvestment = values?.target_amount / numberOfMonths;
 
   const showError = (error: any) => {
     Toast.show({
@@ -51,17 +61,20 @@ function CreatePlanReview({
     });
   };
 
+  const navigation: any = useNavigation();
+
   const {isLoading} = useQuery(
     [GET_PLANS_PROJECTION],
     () =>
       getPlanProjection({
         monthly_investment: monthlyInvestment,
-        date: values.maturity_date,
-        target_amount: values.target_amount,
+        date: values?.maturity_date,
+        target_amount: values?.target_amount,
       }),
     {
       onError(err: any) {
         showError(err?.message);
+        navigation.navigate(navigationString.ERROR_SCREEN, {error: err});
       },
     },
   );
@@ -72,7 +85,7 @@ function CreatePlanReview({
   return (
     <View style={styles.container}>
       <>
-        <CreatePlanHeader
+        <AppNavigationAndTextHeader
           IconName="arrow-back-outline"
           onPress={handleBack}
           title="Review"
@@ -153,7 +166,7 @@ function CreatePlanReview({
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {marginBottom: 70},
   text_container: {
     flexDirection: 'column',
     gap: 7,

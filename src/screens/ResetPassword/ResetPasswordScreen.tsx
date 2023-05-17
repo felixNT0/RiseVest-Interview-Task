@@ -2,10 +2,10 @@ import React from 'react';
 import {View} from 'react-native';
 import ResetPassword from '../../components/ResetPassword/ResetPassword';
 
-function ResetPasswordScreen({navigation}: any) {
+function ResetPasswordScreen() {
   return (
     <View>
-      <ResetPassword navigation={navigation} />
+      <ResetPassword />
     </View>
   );
 }

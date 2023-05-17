@@ -5,12 +5,21 @@ import DatePicker from 'react-native-date-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AppButton from '../AppButton/AppButton';
 import AppLabelTextInput from '../AppLabelTextInput/AppLabelTextInput';
-import CreatePlanHeader from './CreatePlanHeader';
 import CreatePlanProgressBar from './CreatePlanProgressBar';
 
 import {RFValue} from 'react-native-responsive-fontsize';
+import AppNavigationAndTextHeader from '../AppNavigationAndTextHeader/AppNavigationAndTextHeader';
+import {defaultCreatePlanUserInputType} from './CreatePlan';
 
 const {height} = Dimensions.get('window');
+
+interface Props {
+  handleBack: () => void;
+  handleNext: () => void;
+  currentStepIndex: number;
+  setValues: (value: any) => void;
+  values: defaultCreatePlanUserInputType;
+}
 
 function CreatePlanFormThree({
   handleBack,
@@ -18,7 +27,7 @@ function CreatePlanFormThree({
   currentStepIndex,
   setValues,
   values,
-}: any) {
+}: Props) {
   const [openDateModal, setOpenDateModal] = useState(false);
   const [showDateValue, setShowDateValue] = useState(false);
 
@@ -35,7 +44,7 @@ function CreatePlanFormThree({
   return (
     <>
       <>
-        <CreatePlanHeader
+        <AppNavigationAndTextHeader
           IconName="arrow-back-outline"
           onPress={handleBack}
           title="Target date"

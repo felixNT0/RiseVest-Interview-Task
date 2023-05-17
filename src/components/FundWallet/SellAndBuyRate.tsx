@@ -5,7 +5,13 @@ import {RFValue} from 'react-native-responsive-fontsize';
 
 const {height} = Dimensions.get('window');
 
-function SellAndBuyRate({type, price, text}: any) {
+interface Props {
+  type: string;
+  price: number;
+  text: string;
+}
+
+function SellAndBuyRate({type, price, text}: Props) {
   return (
     <View
       style={{

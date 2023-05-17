@@ -5,13 +5,20 @@ const {height} = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
   container: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: -10,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignitems: 'center',
-    marginTop: 10,
+    paddingTop: 10,
     marginVertical: 10,
-    marginHorizontal: 15,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    zIndex: 99,
+    backgroundColor: '#FFFFFF',
   },
   header_text: {
     color: 'black',

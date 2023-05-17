@@ -1,11 +1,14 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import navigationString from '../../navigations/navigationString';
-import CreatePlanHeader from '../CreatePlan/CreatePlanHeader';
+import AppNavigationAndTextHeader from '../AppNavigationAndTextHeader/AppNavigationAndTextHeader';
 import CreatePlanTips from '../CreatePlan/CreatePlanTips';
 import AboutExchangeModal from './AboutExchangeModal';
 
-function FundWallet({navigation}: any) {
+function FundWallet() {
+  const navigation: any = useNavigation();
+
   const [modalVisible, setModalVisible] = useState(true);
 
   const toggleModal = () => {
@@ -14,7 +17,7 @@ function FundWallet({navigation}: any) {
 
   return (
     <View style={styles.container}>
-      <CreatePlanHeader
+      <AppNavigationAndTextHeader
         IconName="close"
         onPress={() => {
           navigation.navigate(navigationString.HOME_SCREEN);

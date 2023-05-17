@@ -1,5 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {default as React, useEffect, useState} from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -14,9 +15,25 @@ import navigationString from '../../navigations/navigationString';
 
 const {height} = Dimensions.get('window');
 
-const BottomNavigationBar = ({navigation}: any) => {
-  const [activeTab, setActiveTab] = useState('Home');
+const BottomNavigationBar = () => {
+  const [activeTab, setActiveTab] = useState<string>('Home');
   const {logout} = useAppContext();
+  const navigation: any = useNavigation();
+  const route = useRoute();
+
+  useEffect(() => {
+    const {name} = route;
+
+    if (name === 'HOME') {
+      setActiveTab('Home');
+    }
+    if (name === 'ALL_PLANS') {
+      setActiveTab('View_All_Plan');
+    }
+    if (name === 'CREATE_A_PLAN') {
+      setActiveTab('Create_Plan');
+    }
+  }, [activeTab, route]);
 
   return (
     <View style={styles.container}>
@@ -55,7 +72,25 @@ const BottomNavigationBar = ({navigation}: any) => {
           Create Plan
         </Text>
       </TouchableOpacity>
-
+      <TouchableOpacity
+        style={[styles.tab, activeTab === 'View_All_Plan' && styles.activeTab]}
+        onPress={() => {
+          setActiveTab('View_All_Plan');
+          navigation.navigate(navigationString.ALL_PLANS);
+        }}>
+        <Ionicons
+          name="list"
+          size={24}
+          style={{color: activeTab === 'View_All_Plan' ? '#41BCC4' : '#94A1AD'}}
+        />
+        <Text
+          style={[
+            styles.tabLabel,
+            {color: activeTab === 'View_All_Plan' ? '#41BCC4' : '#94A1AD'},
+          ]}>
+          Plans
+        </Text>
+      </TouchableOpacity>
       <TouchableOpacity
         style={[styles.tab, activeTab === 'Logged_Out' && styles.activeTab]}
         onPress={() => {
@@ -81,6 +116,10 @@ const BottomNavigationBar = ({navigation}: any) => {
 
 const styles = StyleSheet.create({
   container: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
     flexDirection: 'row',
     backgroundColor: '#FFFFFF',
     paddingVertical: 8,

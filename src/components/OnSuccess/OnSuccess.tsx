@@ -6,7 +6,14 @@ import {RFValue} from 'react-native-responsive-fontsize';
 
 const {height} = Dimensions.get('window');
 
-const OnSuccess = ({HeaderText, BodyText, onPress, buttonText}: any) => {
+interface Props {
+  HeaderText: string;
+  BodyText: string;
+  onPress: () => void;
+  buttonText: string;
+}
+
+const OnSuccess = ({HeaderText, BodyText, onPress, buttonText}: Props) => {
   return (
     <View style={styles.container}>
       <Image

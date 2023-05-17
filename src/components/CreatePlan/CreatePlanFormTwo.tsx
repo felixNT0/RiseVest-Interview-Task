@@ -4,10 +4,19 @@ import {Dimensions, Text, View} from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 import AppButton from '../AppButton/AppButton';
 import AppLabelTextInput from '../AppLabelTextInput/AppLabelTextInput';
-import CreatePlanHeader from './CreatePlanHeader';
+import AppNavigationAndTextHeader from '../AppNavigationAndTextHeader/AppNavigationAndTextHeader';
+import {defaultCreatePlanUserInputType} from './CreatePlan';
 import CreatePlanProgressBar from './CreatePlanProgressBar';
 
 const {height} = Dimensions.get('window');
+
+interface Props {
+  handleBack: () => void;
+  handleNext: () => void;
+  currentStepIndex: number;
+  setValues: (value: any) => void;
+  values: defaultCreatePlanUserInputType;
+}
 
 function CreatePlanFormTwo({
   handleBack,
@@ -15,10 +24,10 @@ function CreatePlanFormTwo({
   currentStepIndex,
   setValues,
   values,
-}: any) {
+}: Props) {
   return (
     <>
-      <CreatePlanHeader
+      <AppNavigationAndTextHeader
         IconName="arrow-back-outline"
         onPress={handleBack}
         title="Target amount"
@@ -44,7 +53,7 @@ function CreatePlanFormTwo({
           dontShowLabel={true}
           placeholder="₦840,000.00"
           keyboardType="numeric"
-          values={values.target_amount}
+          value={values.target_amount !== 0 ? values.target_amount : ''}
           onChangeText={(e: any) =>
             setValues((prev: any) => ({...prev, target_amount: e}))
           }

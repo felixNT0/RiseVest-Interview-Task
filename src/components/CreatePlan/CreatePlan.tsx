@@ -1,13 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {ScrollView, View} from 'react-native';
-// import {useMutation} from 'react-query';
-// import {createPlan} from '../../queries/CreatePlanQueries/CreatePlanQueries';
+import {FlatList, View} from 'react-native';
 import Toast from 'react-native-toast-message';
 import {useMutation} from 'react-query';
 import {useAppContext} from '../../contexts/AppContext';
 import navigationString from '../../navigations/navigationString';
 import {createPlan} from '../../queries/CreatePlanQueries/CreatePlanQueries';
+import BottomNavigationBar from '../BottomTabs/BottomTabs';
 import OnSuccess from '../OnSuccess/OnSuccess';
 import CreatePlanFormThree from './CreatePlanFormThree';
 import CreatePlanFormTwo from './CreatePlanFormTwo';
@@ -23,18 +24,32 @@ const steps = [
   {key: 5, component: CreatePlanReview},
 ];
 
-function CreatePlan({navigation}: any) {
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [submit, setSumit] = useState(false);
-  const [showSuccessScreen, setShowSuccessScreen] = useState(false);
+export type defaultCreatePlanUserInputType = {
+  plan_name: string;
+  target_amount: number;
+  maturity_date: string | any;
+};
+
+export const defaultCreatePlanUserInput = {
+  plan_name: '',
+  target_amount: 0,
+  maturity_date: new Date(),
+};
+
+function CreatePlan() {
+  const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);
+  const [submit, setSumit] = useState<boolean>(false);
+  const [showSuccessScreen, setShowSuccessScreen] = useState<boolean>(false);
 
   const {currentUser} = useAppContext();
 
-  const [values, setValues] = useState({
-    plan_name: '',
-    target_amount: 0,
-    maturity_date: new Date(),
-  });
+  const navigation: any = useNavigation();
+
+  const [values, setValues] = useState<defaultCreatePlanUserInputType>(
+    defaultCreatePlanUserInput,
+  );
+
+  const [planId, setPlanId] = useState<string>('');
 
   const showError = (error: any) => {
     Toast.show({
@@ -45,17 +60,23 @@ function CreatePlan({navigation}: any) {
   };
 
   const {mutate, isSuccess} = useMutation(createPlan, {
-    onSuccess: () => {
+    onSuccess: (res: any) => {
+      setPlanId(res?.data?.id);
+      setShowSuccessScreen(true);
       setValues({
         plan_name: '',
         target_amount: 0,
         maturity_date: new Date(),
       });
-      setShowSuccessScreen(true);
     },
     onError: (err: any) => {
       showError(err.message);
-      setShowSuccessScreen(true);
+      navigation.navigate(navigationString.ERROR_SCREEN, {error: err.message});
+      setValues({
+        plan_name: '',
+        target_amount: 0,
+        maturity_date: new Date(),
+      });
     },
   });
 
@@ -73,36 +94,52 @@ function CreatePlan({navigation}: any) {
 
   const Components = steps[currentStepIndex]?.component as any;
 
+  const flatListData = [{id: '1', title: 'Single Item'}]; // Array with a single item
+
+  const renderItem = () => (
+    <>
+      <View style={{marginHorizontal: 15}}>
+        <Components
+          handleNext={handleNext}
+          handleBack={handleBack}
+          currentStepIndex={currentStepIndex}
+          setValues={setValues}
+          values={values}
+          setSumit={setSumit}
+          isSuccess={isSuccess}
+          setCurrentStepIndex={setCurrentStepIndex}
+        />
+      </View>
+    </>
+  );
+
   useEffect(() => {
-    if (submit) {
+    if (submit && values?.plan_name) {
       mutate(values);
     }
-  }, [mutate, submit, values]);
+  }, [submit, values?.plan_name]);
 
   useEffect(() => {
     if (submit) {
       setTimeout(() => {
         setSumit(false);
-      }, 5000);
+      }, 1000);
     }
   }, [submit]);
 
   return (
-    <ScrollView>
+    <>
       {!showSuccessScreen && (
-        <View style={{marginHorizontal: 15}}>
-          <Components
-            handleNext={handleNext}
-            handleBack={handleBack}
-            navigation={navigation}
-            currentStepIndex={currentStepIndex}
-            setValues={setValues}
-            values={values}
-            setSumit={setSumit}
-            isSuccess={isSuccess}
-            setCurrentStepIndex={setCurrentStepIndex}
-          />
-        </View>
+        <>
+          <View style={{flex: 1}}>
+            <FlatList
+              data={flatListData}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+            />
+            <BottomNavigationBar />
+          </View>
+        </>
       )}
       <Toast />
       {showSuccessScreen && (
@@ -112,12 +149,14 @@ function CreatePlan({navigation}: any) {
             BodyText={`Well done, ${currentUser?.username}`}
             buttonText="View plan"
             onPress={() => {
-              navigation.navigate(navigationString.HOME_SCREEN);
+              navigation.navigate(navigationString.VIEW_SPECIFIC_PLAN, {
+                id: planId,
+              });
             }}
           />
         </View>
       )}
-    </ScrollView>
+    </>
   );
 }
 

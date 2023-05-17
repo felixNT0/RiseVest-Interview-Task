@@ -5,7 +5,7 @@ import RiseWelcomeComponent from '../../components/RiseWelcomeComponent/RiseWelc
 import {useAppContext} from '../../contexts/AppContext';
 import HomeScreen from '../Home/HomeScreen';
 
-export default function WelcomeScreen({navigation}: any) {
+export default function WelcomeScreen() {
   const [showScreen, setShowScreen] = useState(false);
   const {currentUser} = useAppContext();
 
@@ -16,12 +16,12 @@ export default function WelcomeScreen({navigation}: any) {
   }, [showScreen]);
 
   if (currentUser.isLoggedIn) {
-    return <HomeScreen navigation={navigation} />;
+    return <HomeScreen />;
   }
   return (
     <View>
       {!currentUser.isLoggedIn && showScreen ? (
-        <AuthSteps navigation={navigation} />
+        <AuthSteps />
       ) : (
         <RiseWelcomeComponent />
       )}

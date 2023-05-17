@@ -1,13 +1,19 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {Dimensions, Text, View} from 'react-native';
-import NavigationButton from './NavigationButton';
 
 import {RFValue} from 'react-native-responsive-fontsize';
+import AppNavigationButton from '../AppNavigationButton/AppNavigationButton';
 
 const {height} = Dimensions.get('window');
 
-function CreatePlanHeader({IconName, onPress, title}: any) {
+interface Props {
+  IconName: string;
+  onPress: () => void;
+  title: string;
+}
+
+function AppNavigationAndTextHeader({IconName, onPress, title}: Props) {
   return (
     <View>
       <View
@@ -18,7 +24,7 @@ function CreatePlanHeader({IconName, onPress, title}: any) {
           alignItems: 'center',
           marginVertical: 30,
         }}>
-        <NavigationButton IconName={IconName} onPress={onPress} />
+        <AppNavigationButton IconName={IconName} onPress={onPress} />
         <Text
           style={{
             color: 'black',
@@ -33,4 +39,4 @@ function CreatePlanHeader({IconName, onPress, title}: any) {
   );
 }
 
-export default CreatePlanHeader;
+export default AppNavigationAndTextHeader;

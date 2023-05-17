@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   ActivityIndicator,
@@ -9,6 +10,7 @@ import {
 } from 'react-native';
 
 import {RFValue} from 'react-native-responsive-fontsize';
+import {AppButtonType} from '../../types/AppButtonType/AppButtonType';
 
 const {height} = Dimensions.get('window');
 
@@ -20,12 +22,11 @@ const AppButton = ({
   disabled,
   width,
   isLoading,
-}: any) => {
+}: AppButtonType) => {
   return (
     <TouchableOpacity
       style={[
         styles.button,
-        // eslint-disable-next-line react-native/no-inline-styles
         {
           backgroundColor: backgroundColor,
           width: width,

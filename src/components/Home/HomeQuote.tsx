@@ -14,7 +14,14 @@ const {height} = Dimensions.get('window');
 
 function HomeQuote({data, isLoading}: any) {
   return (
-    <View style={styles.quotes_card}>
+    <View
+      style={[
+        styles.quotes_card,
+        {
+          paddingHorizontal: isLoading ? 30 : 15,
+          paddingVertical: isLoading ? 30 : 15,
+        },
+      ]}>
       {data && !isLoading ? (
         <>
           <Text
@@ -88,8 +95,6 @@ const styles = StyleSheet.create({
   quotes_card: {
     display: 'flex',
     flexDirection: 'column',
-    paddingHorizontal: 15,
-    paddingVertical: 15,
     marginHorizontal: 13,
     backgroundColor: '#0898A0',
     borderRadius: 15,

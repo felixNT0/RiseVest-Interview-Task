@@ -1,10 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
+import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {
-  Dimensions,
   Keyboard,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableWithoutFeedback,
   View,
@@ -14,17 +13,22 @@ import {useMutation} from 'react-query';
 import {useAppContext} from '../../contexts/AppContext';
 import navigationString from '../../navigations/navigationString';
 import {loginUser} from '../../queries/LoginQueries/LoginQueries';
+import {styles} from '../../styles/LoginStyles/LoginStyles';
 import {setAuthToken} from '../../utils/localStorage';
 import AppButton from '../AppButton/AppButton';
 import AppLabelTextInput from '../AppLabelTextInput/AppLabelTextInput';
 import AppPasswordInput from '../AppPasswordInput/AppPasswordInput';
 
-import {RFValue} from 'react-native-responsive-fontsize';
+type LoginUserValueType = {email_address: string; password: string};
 
-const {height} = Dimensions.get('window');
+const defaultLoginUserValues = {email_address: '', password: ''};
 
-function Login({navigation}: any) {
-  const [values, setValues] = useState({email_address: '', password: ''});
+function Login() {
+  const [values, setValues] = useState<LoginUserValueType>(
+    defaultLoginUserValues,
+  );
+
+  const navigation: any = useNavigation();
 
   const {updateCurrentUser} = useAppContext();
 
@@ -47,9 +51,11 @@ function Login({navigation}: any) {
       navigation.navigate(navigationString.HOME_SCREEN);
 
       updateCurrentUser();
+      setValues(defaultLoginUserValues);
     },
     onError: (err: any) => {
       showError(err.message);
+      setValues(defaultLoginUserValues);
     },
   });
 
@@ -116,51 +122,5 @@ function Login({navigation}: any) {
     </TouchableWithoutFeedback>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 70,
-    marginHorizontal: 20,
-  },
-  all_input: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 30,
-    marginTop: 50,
-  },
-  title: {
-    fontSize: RFValue(25, height),
-    color: 'black',
-    fontWeight: 'bold',
-    marginBottom: 32,
-  },
-
-  description: {
-    color: '#71879C',
-    fontSize: RFValue(15, height),
-  },
-
-  input: {
-    height: 40,
-    width: '80%',
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#CCCCCC',
-    marginBottom: 16,
-  },
-  forget_password_link: {
-    color: '#0898A0',
-    marginTop: 30,
-    fontSize: RFValue(15, height),
-    textAlign: 'center',
-  },
-  already_have_account: {
-    color: '#71879C',
-    fontSize: RFValue(15, height),
-    textAlign: 'center',
-    marginTop: 170,
-  },
-});
 
 export default Login;

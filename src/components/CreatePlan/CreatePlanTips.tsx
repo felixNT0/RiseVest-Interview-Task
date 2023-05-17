@@ -1,31 +1,24 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
-import NavigationButton from './NavigationButton';
 
 import {RFValue} from 'react-native-responsive-fontsize';
+import AppNavigationButton from '../AppNavigationButton/AppNavigationButton';
 
 const {height} = Dimensions.get('window');
 
-const CreatePlanTips = ({IconName, title, description, size}: any) => {
-  const styles = StyleSheet.create({
-    container: {
-      display: 'flex',
-      alignItems: 'center',
-      flexDirection: 'row',
-      gap: 20,
-      marginVertical: 10,
-    },
-    text_container: {
-      flexDirection: 'column',
-      gap: 7,
-    },
-  });
+interface Props {
+  IconName: string;
+  title: string;
+  description: string;
+  size?: number;
+}
 
+const CreatePlanTips = ({IconName, title, description, size}: Props) => {
   return (
     <View style={{marginBottom: 10}}>
       <View style={styles.container}>
-        <NavigationButton IconName={IconName} size={size} />
+        <AppNavigationButton IconName={IconName} size={size} />
         <View style={styles.text_container}>
           <Text
             style={{
@@ -50,5 +43,19 @@ const CreatePlanTips = ({IconName, title, description, size}: any) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 20,
+    marginVertical: 10,
+  },
+  text_container: {
+    flexDirection: 'column',
+    gap: 7,
+  },
+});
 
 export default CreatePlanTips;

@@ -44,7 +44,7 @@ const UserContext = createContext<UserContext>({
 
 export default function AppProvider({children}: any) {
   const [currentUser, setCurrentUser] = useState<UserContextType>(defaultUser);
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState<string>('');
 
   const navigation: any = useNavigation();
 

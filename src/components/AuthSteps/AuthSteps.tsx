@@ -1,4 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
@@ -21,7 +22,9 @@ const steps = [
   {key: 3, component: StepThree},
 ];
 
-const AuthSteps = ({navigation}: any) => {
+const AuthSteps = () => {
+  const navigation: any = useNavigation();
+
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [stepColor, setStepColor] = useState('rgba(254, 113, 34, 1)');
 
@@ -104,7 +107,7 @@ const AuthSteps = ({navigation}: any) => {
         <Components>
           <StepsProgressDot
             currentStep={currentStepIndex}
-            totalSteps={3}
+            totalSteps={steps.length}
             currentStepColor={stepColor}
           />
         </Components>

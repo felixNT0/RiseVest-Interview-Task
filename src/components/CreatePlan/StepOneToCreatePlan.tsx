@@ -1,21 +1,28 @@
 /* eslint-disable react-native/no-inline-styles */
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Dimensions, Image, Text, View} from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 import navigationString from '../../navigations/navigationString';
 import AppButton from '../AppButton/AppButton';
-import CreatePlanHeader from './CreatePlanHeader';
+import AppNavigationAndTextHeader from '../AppNavigationAndTextHeader/AppNavigationAndTextHeader';
 import CreatePlanTips from './CreatePlanTips';
 
 const {height} = Dimensions.get('window');
 
-function StepOneToCreatePlan({handleNext, navigation}: any) {
+interface Props {
+  handleNext: () => void;
+}
+
+function StepOneToCreatePlan({handleNext}: Props) {
+  const navigation: any = useNavigation();
+
   const handleNavigate = () => {
     navigation.navigate(navigationString.HOME_SCREEN);
   };
   return (
-    <>
-      <CreatePlanHeader
+    <View style={{marginBottom: 70}}>
+      <AppNavigationAndTextHeader
         IconName="close"
         onPress={handleNavigate}
         title="Create a plan"
@@ -47,7 +54,6 @@ function StepOneToCreatePlan({handleNext, navigation}: any) {
       <CreatePlanTips
         IconName="calendar-outline"
         title="Turn on auto-invest"
-        size={23}
         description="The easiest way to get your investment working for you is to fund to periodically. "
       />
       <CreatePlanTips
@@ -55,9 +61,10 @@ function StepOneToCreatePlan({handleNext, navigation}: any) {
         title="Modify as you progress"
         description="You are in charge. Make changes to your plan, from adding funds, funding source, adding money to your wallet and more."
       />
-      <View style={{marginTop: 100}} />
-      <AppButton label="Continue" onPress={handleNext} />
-    </>
+      <View style={{marginTop: 60}}>
+        <AppButton label="Continue" onPress={handleNext} />
+      </View>
+    </View>
   );
 }
 

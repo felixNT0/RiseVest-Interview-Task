@@ -9,12 +9,18 @@ import {
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {AppPasswordInputType} from '../../types/AppPasswordInputType/AppPasswordInputType';
 
 const {height} = Dimensions.get('window');
 
-const AppPasswordInput = ({placeholder, value, onChangeText, label}: any) => {
+const AppPasswordInput = ({
+  placeholder,
+  value,
+  onChangeText,
+  label,
+}: AppPasswordInputType) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [borderWidth, setBorderWidth] = useState(1);
+  const [borderWidth, setBorderWidth] = useState<number>(1);
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);

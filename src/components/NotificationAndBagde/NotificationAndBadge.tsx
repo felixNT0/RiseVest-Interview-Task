@@ -10,11 +10,9 @@ export default function NotificationAndBadge() {
   return (
     <View style={styles.container}>
       <Icon name={'notifications'} size={30} color={PRIMARY_COLOR} />
-      {/* {badgeCount > 0 && ( */}
       <View style={styles.badgeContainer}>
-        <Text style={styles.badgeText}>{9}</Text>
+        <Text style={styles.badgeText}>{0}</Text>
       </View>
-      {/* )} */}
     </View>
   );
 }

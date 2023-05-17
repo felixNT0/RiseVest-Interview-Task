@@ -1,10 +1,10 @@
 import React from 'react';
 import Login from '../../components/Login/Login';
 
-function LoginScreen({navigation}: any) {
+function LoginScreen() {
   return (
     <>
-      <Login navigation={navigation} />
+      <Login />
     </>
   );
 }

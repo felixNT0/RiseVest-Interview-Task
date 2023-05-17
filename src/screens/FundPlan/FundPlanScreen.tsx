@@ -1,10 +1,10 @@
 import React from 'react';
 import FundWallet from '../../components/FundWallet/FundWallet';
 
-function FundPlanScreen({navigation}: any) {
+function FundPlanScreen() {
   return (
     <>
-      <FundWallet navigation={navigation} />
+      <FundWallet />
     </>
   );
 }

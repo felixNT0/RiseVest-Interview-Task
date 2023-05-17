@@ -8,13 +8,18 @@ import {
   getSaleAndBuyRate,
 } from '../../queries/GetSaleAndBuyRates/GetSaleAndBuyRates';
 import AppButton from '../AppButton/AppButton';
-import NavigationButton from '../CreatePlan/NavigationButton';
+import AppNavigationButton from '../AppNavigationButton/AppNavigationButton';
 import SellAndBuyRate from './SellAndBuyRate';
 import Skeleton from './Skeleton';
 
 const {height} = Dimensions.get('window');
 
-const AboutExchangeModal = ({modalVisible, closeModal}: any) => {
+interface Props {
+  modalVisible: boolean;
+  closeModal: () => void;
+}
+
+const AboutExchangeModal = ({modalVisible, closeModal}: Props) => {
   const {data, isLoading} = useQuery(
     [GET_BUY_AND_SALE_RATE],
     getSaleAndBuyRate,
@@ -32,7 +37,7 @@ const AboutExchangeModal = ({modalVisible, closeModal}: any) => {
           <View style={styles.modalContent}>
             <View style={styles.header}>
               <View style={{marginLeft: 10}}>
-                <NavigationButton IconName="close" onPress={closeModal} />
+                <AppNavigationButton IconName="close" onPress={closeModal} />
               </View>
               <Text style={styles.modalText}>About Exchange Rates</Text>
             </View>

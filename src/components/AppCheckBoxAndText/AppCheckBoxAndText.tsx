@@ -9,10 +9,11 @@ import {
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {AppCheckBoxAndTextType} from '../../types/AppCheckBoxAndTextType/AppCheckBoxAndTextType';
 
 const {height} = Dimensions.get('window');
 
-function AppCheckBoxAndText({checked, text}: any) {
+function AppCheckBoxAndText({checked, text}: AppCheckBoxAndTextType) {
   return (
     <TouchableOpacity style={styles.checkbox}>
       <View
