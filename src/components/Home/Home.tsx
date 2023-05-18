@@ -205,8 +205,9 @@ export default function Home() {
   if (loading && isLoading && isloading) {
     return <AppLoader />;
   }
+
   return (
-    <View style={{flex: 1}}>
+    <View>
       <HomeNavBar />
       <FlatList
         data={flatListData}

@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import {RFValue} from 'react-native-responsive-fontsize';
 import Icon from 'react-native-vector-icons/Ionicons';
 import navigationString from '../../navigations/navigationString';
@@ -19,46 +20,55 @@ function PlanCard({plan_name, target_amount, id, cardWidth, cardHeight}: any) {
   const navigation: any = useNavigation();
 
   return (
-    <TouchableOpacity
+    <LinearGradient
+      colors={['#0898A0', 'rgba(113, 135, 156, 0.1)']}
+      start={{x: 0, y: 0}}
+      end={{x: 0, y: 1}}
       style={[
         styles.create_investment_button,
         {width: cardWidth, height: cardHeight},
-      ]}
-      onPress={() => {
-        navigation.navigate(navigationString.VIEW_SPECIFIC_PLAN, {id: id});
-      }}>
-      <Text
-        style={{
-          color: PRIMARY_COLOR,
-          fontWeight: '700',
-          fontSize: RFValue(20, height),
-          marginTop: 50,
-          textAlign: 'center',
+      ]}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate(navigationString.VIEW_SPECIFIC_PLAN, {id: id});
         }}>
-        {plan_name}
-      </Text>
-      <Text
-        style={{
-          color: 'black',
-          fontWeight: '700',
-          fontSize: RFValue(15, height),
-          marginTop: 10,
-          textAlign: 'center',
-        }}>
-        ${target_amount}
-      </Text>
-      <View style={styles.amount_and_plan_name}>
         <Text
           style={{
             color: PRIMARY_COLOR,
             fontWeight: '700',
-            fontSize: RFValue(15, height),
+            fontSize: RFValue(20, height),
+            marginTop: 50,
+            textAlign: 'center',
           }}>
-          view plan
+          {plan_name}
         </Text>
-        <Icon name={'arrow-forward-outline'} size={15} color={PRIMARY_COLOR} />
-      </View>
-    </TouchableOpacity>
+        <Text
+          style={{
+            color: 'black',
+            fontWeight: '700',
+            fontSize: RFValue(15, height),
+            marginTop: 10,
+            textAlign: 'center',
+          }}>
+          ${target_amount}
+        </Text>
+        <View style={styles.amount_and_plan_name}>
+          <Text
+            style={{
+              color: PRIMARY_COLOR,
+              fontWeight: '700',
+              fontSize: RFValue(15, height),
+            }}>
+            view plan
+          </Text>
+          <Icon
+            name={'arrow-forward-outline'}
+            size={15}
+            color={PRIMARY_COLOR}
+          />
+        </View>
+      </TouchableOpacity>
+    </LinearGradient>
   );
 }
 
