@@ -8,18 +8,63 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {RFValue} from 'react-native-responsive-fontsize';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useAppContext} from '../../contexts/AppContext';
 import navigationString from '../../navigations/navigationString';
-
-const {height} = Dimensions.get('window');
 
 const BottomNavigationBar = () => {
   const [activeTab, setActiveTab] = useState<string>('Home');
   const {logout} = useAppContext();
   const navigation: any = useNavigation();
   const route = useRoute();
+
+  const [screenDimensions, setScreenDimensions] = useState<any>(
+    Dimensions.get('window'),
+  );
+
+  const {width} = screenDimensions;
+
+  const styles = StyleSheet.create({
+    container: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      flexDirection: 'row',
+      backgroundColor: '#FFFFFF',
+      paddingVertical: 8,
+      paddingHorizontal: 16,
+      borderColor: '#94A1AD',
+      borderTopWidth: 1,
+      elevation: 7,
+      marginBottom: width >= 500 ? 20 : 0,
+    },
+    tab: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 4,
+      marginHorizontal: 4,
+      height: 50,
+      marginBottom: 5,
+    },
+    activeTab: {
+      // backgroundColor: '#41BCC4',
+    },
+    tabLabel: {
+      color: 'white',
+      fontSize: 12,
+      marginTop: 4,
+    },
+  });
+
+  useEffect(() => {
+    const onChange = ({window}: any) => {
+      setScreenDimensions(window);
+    };
+
+    Dimensions?.addEventListener('change', onChange);
+  }, [screenDimensions]);
 
   useEffect(() => {
     const {name} = route;
@@ -39,7 +84,10 @@ const BottomNavigationBar = () => {
     <View style={styles.container}>
       <TouchableOpacity
         style={[styles.tab, activeTab === 'Home' && styles.activeTab]}
-        onPress={() => setActiveTab('Home')}>
+        onPress={() => {
+          setActiveTab('Home');
+          navigation.navigate(navigationString.HOME_SCREEN);
+        }}>
         <Ionicons
           name="home"
           size={24}
@@ -113,38 +161,5 @@ const BottomNavigationBar = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderColor: '#94A1AD',
-    borderTopWidth: 1,
-    elevation: 7,
-  },
-  tab: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 4,
-    marginHorizontal: 4,
-    height: 50,
-    marginBottom: 5,
-  },
-  activeTab: {
-    // backgroundColor: '#41BCC4',
-  },
-  tabLabel: {
-    color: 'white',
-    fontSize: RFValue(12, height),
-    marginTop: 4,
-  },
-});
 
 export default BottomNavigationBar;

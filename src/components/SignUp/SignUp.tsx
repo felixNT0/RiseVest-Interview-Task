@@ -1,6 +1,8 @@
+/* eslint-disable react-native/no-inline-styles */
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
+  Dimensions,
   Keyboard,
   ScrollView,
   TouchableWithoutFeedback,
@@ -114,6 +116,20 @@ export default function SignUp() {
 
   const openDate = () => setOpenDateModal(true);
 
+  const [screenDimensions, setScreenDimensions] = useState<any>(
+    Dimensions.get('window'),
+  );
+
+  useEffect(() => {
+    const onChange = ({window}: any) => {
+      setScreenDimensions(window);
+    };
+
+    Dimensions?.addEventListener('change', onChange);
+  }, [screenDimensions]);
+
+  const {width} = screenDimensions;
+
   useEffect(() => {
     if (values.password) {
       const length = /([A-Za-z\\d@$!%*?&]{8,})/.test(values.password);
@@ -144,7 +160,14 @@ export default function SignUp() {
   return (
     <TouchableWithoutFeedback onPress={hideKeyboard}>
       <ScrollView>
-        <View style={styles.container}>
+        <View
+          style={[
+            styles.container,
+            {
+              marginHorizontal: width >= 500 ? 100 : 20,
+              marginBottom: width >= 500 ? 50 : 0,
+            },
+          ]}>
           {next === 'First_Screen' && (
             <SignUpFirstStep
               values={values}

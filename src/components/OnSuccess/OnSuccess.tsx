@@ -1,10 +1,7 @@
-import React from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useEffect, useState} from 'react';
 import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import AppButton from '../AppButton/AppButton';
-
-import {RFValue} from 'react-native-responsive-fontsize';
-
-const {height} = Dimensions.get('window');
 
 interface Props {
   HeaderText: string;
@@ -14,8 +11,27 @@ interface Props {
 }
 
 const OnSuccess = ({HeaderText, BodyText, onPress, buttonText}: Props) => {
+  const [screenDimensions, setScreenDimensions] = useState<any>(
+    Dimensions.get('window'),
+  );
+
+  useEffect(() => {
+    const onChange = ({window}: any) => {
+      setScreenDimensions(window);
+    };
+
+    Dimensions?.addEventListener('change', onChange);
+  }, [screenDimensions]);
+
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          marginHorizontal: screenDimensions?.width >= 500 ? 150 : 15,
+          marginBottom: screenDimensions?.width >= 500 ? 70 : 0,
+        },
+      ]}>
       <Image
         source={require('../../assets/Success.png')}
         style={styles.image}
@@ -42,14 +58,14 @@ const styles = StyleSheet.create({
     marginTop: 300,
   },
   title: {
-    fontSize: RFValue(20, height),
+    fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 17,
     marginTop: 30,
     color: '#222222',
   },
   description: {
-    fontSize: RFValue(16, height),
+    fontSize: 16,
     color: '#71879C',
   },
   buttonContainer: {

@@ -1,22 +1,20 @@
 /* eslint-disable react-native/no-inline-styles */
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {RFValue} from 'react-native-responsive-fontsize';
 import Icon from 'react-native-vector-icons/Ionicons';
 import navigationString from '../../navigations/navigationString';
 import {PRIMARY_COLOR} from '../../utils/color';
 
-const {height} = Dimensions.get('window');
-
-function PlanCard({plan_name, target_amount, id, cardWidth, cardHeight}: any) {
+function PlanCard({
+  plan_name,
+  target_amount,
+  id,
+  cardWidth,
+  cardHeight,
+  bigScreen,
+}: any) {
   const navigation: any = useNavigation();
 
   return (
@@ -26,7 +24,12 @@ function PlanCard({plan_name, target_amount, id, cardWidth, cardHeight}: any) {
       end={{x: 0, y: 1}}
       style={[
         styles.create_investment_button,
-        {width: cardWidth, height: cardHeight},
+        {
+          width: cardWidth,
+          height: cardHeight,
+          marginRight: bigScreen ? -5 : 30,
+          marginLeft: bigScreen ? -15 : 0,
+        },
       ]}>
       <TouchableOpacity
         onPress={() => {
@@ -36,7 +39,7 @@ function PlanCard({plan_name, target_amount, id, cardWidth, cardHeight}: any) {
           style={{
             color: PRIMARY_COLOR,
             fontWeight: '700',
-            fontSize: RFValue(20, height),
+            fontSize: 20,
             marginTop: 50,
             textAlign: 'center',
           }}>
@@ -46,7 +49,7 @@ function PlanCard({plan_name, target_amount, id, cardWidth, cardHeight}: any) {
           style={{
             color: 'black',
             fontWeight: '700',
-            fontSize: RFValue(15, height),
+            fontSize: 15,
             marginTop: 10,
             textAlign: 'center',
           }}>
@@ -57,7 +60,7 @@ function PlanCard({plan_name, target_amount, id, cardWidth, cardHeight}: any) {
             style={{
               color: PRIMARY_COLOR,
               fontWeight: '700',
-              fontSize: RFValue(15, height),
+              fontSize: 15,
             }}>
             view plan
           </Text>
@@ -80,7 +83,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(113, 135, 156, 0.1)',
     borderRadius: 12,
     marginTop: 25,
-    marginRight: 30,
   },
   amount_and_plan_name: {
     flexDirection: 'row',

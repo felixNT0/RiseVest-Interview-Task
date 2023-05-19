@@ -2,17 +2,13 @@
 import React from 'react';
 import {
   ActivityIndicator,
-  Dimensions,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 
-import {RFValue} from 'react-native-responsive-fontsize';
 import {AppButtonType} from '../../types/AppButtonType/AppButtonType';
-
-const {height} = Dimensions.get('window');
 
 const AppButton = ({
   label,
@@ -20,7 +16,6 @@ const AppButton = ({
   backgroundColor = '#0898A0',
   labelColor = '#FFFFFF',
   disabled,
-  width,
   isLoading,
 }: AppButtonType) => {
   return (
@@ -29,7 +24,6 @@ const AppButton = ({
         styles.button,
         {
           backgroundColor: backgroundColor,
-          width: width,
           opacity: disabled ? 0.3 : 1,
         },
       ]}
@@ -57,7 +51,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   label: {
-    fontSize: RFValue(16, height),
+    fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
   },

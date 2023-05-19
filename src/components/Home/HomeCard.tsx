@@ -1,13 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {Dimensions, StyleSheet, Text, TextInput, View} from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useAppContext} from '../../contexts/AppContext';
 import Dot from './Dot';
-
-import {RFValue} from 'react-native-responsive-fontsize';
-
-const {height} = Dimensions.get('window');
 
 function HomeCard() {
   const [showPrice, setShowPrice] = useState<boolean>(true);
@@ -74,11 +70,11 @@ const styles = StyleSheet.create({
   price: {
     color: '#333333',
     textAlign: 'center',
-    fontSize: RFValue(30, height),
+    fontSize: 30,
     marginTop: -12,
   },
   title: {
-    fontSize: RFValue(17, height),
+    fontSize: 17,
     fontWeight: 'bold',
     marginBottom: 10,
     color: '#71879C',

@@ -6,7 +6,6 @@ const {height} = Dimensions.get('window');
 export const styles = StyleSheet.create({
   container: {
     marginTop: 70,
-    marginHorizontal: 20,
   },
   all_input: {
     display: 'flex',

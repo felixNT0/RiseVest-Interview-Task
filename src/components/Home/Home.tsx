@@ -1,5 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import {useNavigation} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   FlatList,
@@ -21,17 +22,12 @@ import {
   getDailyQuotes,
 } from '../../queries/GetDailyQuotes/GetDailyQuotes';
 import {styles} from '../../styles/HomeStyles/HomeStyles';
+import PlanCard from '../AllPlans/PlanCard';
 import AppLoader from '../AppLoader/AppLoader';
+import BottomNavigationBar from '../BottomTabs/BottomTabs';
 import HomeCard from './HomeCard';
 import HomeNavBar from './HomeNavBar';
 import HomeQuote from './HomeQuote';
-
-import {useNavigation} from '@react-navigation/native';
-import {RFValue} from 'react-native-responsive-fontsize';
-import PlanCard from '../AllPlans/PlanCard';
-import BottomNavigationBar from '../BottomTabs/BottomTabs';
-
-const {height} = Dimensions.get('window');
 
 export default function Home() {
   const {data, isLoading: loading} = useQuery(
@@ -50,8 +46,24 @@ export default function Home() {
 
   const flatListData = [{id: '1', title: 'Single Item'}]; // Array with a single item
 
+  const [screenDimensions, setScreenDimensions] = useState<any>(
+    Dimensions.get('window'),
+  );
+
+  useEffect(() => {
+    const onChange = ({window}: any) => {
+      setScreenDimensions(window);
+    };
+
+    Dimensions?.addEventListener('change', onChange);
+  }, [screenDimensions]);
+
+  const {width} = screenDimensions;
+
+  const newPlans = plans?.items?.slice(-3).reverse();
+
   const renderItem = () => (
-    <>
+    <View style={{marginHorizontal: width >= 500 ? 100 : 0}}>
       <HomeCard />
       <TouchableOpacity
         style={styles.add_money_button}
@@ -67,7 +79,7 @@ export default function Home() {
         <Text
           style={{
             color: '#0898A0',
-            fontSize: RFValue(20, height),
+            fontSize: 20,
             fontWeight: '700',
           }}>
           Add money
@@ -77,7 +89,7 @@ export default function Home() {
         <Text
           style={{
             color: 'black',
-            fontSize: RFValue(20, height),
+            fontSize: 20,
             fontWeight: '400',
           }}>
           {plans?.item_count === 0 ? 'Create a plan' : 'Your plans'}
@@ -98,7 +110,7 @@ export default function Home() {
             }}
             style={{
               color: plans?.item_count !== 0 ? '#0898A0' : '#94A1AD',
-              fontSize: RFValue(18, height),
+              fontSize: 18,
               fontWeight: 'bold',
             }}>
             View all plans
@@ -114,7 +126,7 @@ export default function Home() {
       {plans && plans.item_count === 0 && (
         <Text
           style={{
-            fontSize: RFValue(15, height),
+            fontSize: 15,
             color: '#71879C',
             marginHorizontal: 15,
             marginTop: 15,
@@ -145,19 +157,35 @@ export default function Home() {
             style={{
               color: 'black',
               fontWeight: '700',
-              fontSize: RFValue(14, height),
+              fontSize: 14,
               marginTop: 10,
             }}>
             Create an investment plan
           </Text>
         </TouchableOpacity>
-        <PlanCard
-          cardWidth={188}
-          cardHeight={243}
-          plan_name={plans?.items[plans?.item_count - 1]?.plan_name}
-          target_amount={plans?.items[plans?.item_count - 1]?.target_amount}
-          id={plans?.items[plans?.item_count - 1]?.id}
-        />
+        {width >= 500 ? (
+          <>
+            {newPlans?.map(item => (
+              <PlanCard
+                cardWidth={188}
+                cardHeight={243}
+                plan_name={item?.plan_name}
+                target_amount={item?.target_amount}
+                id={item?.id}
+                key={item?.id}
+                bigScreen={width >= 500}
+              />
+            ))}
+          </>
+        ) : (
+          <PlanCard
+            cardWidth={188}
+            cardHeight={243}
+            plan_name={plans?.items[plans?.item_count - 1]?.plan_name}
+            target_amount={plans?.items[plans?.item_count - 1]?.target_amount}
+            id={plans?.items[plans?.item_count - 1]?.id}
+          />
+        )}
       </View>
       <View style={styles.contact_us}>
         <View
@@ -195,11 +223,11 @@ export default function Home() {
           style={{
             width: 123,
             height: 37.43,
-            marginBottom: 70,
+            marginBottom: 80,
           }}
         />
       </View>
-    </>
+    </View>
   );
 
   if (loading && isLoading && isloading) {

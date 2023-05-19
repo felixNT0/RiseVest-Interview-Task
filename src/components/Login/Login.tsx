@@ -1,7 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import {useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
+  Dimensions,
   Keyboard,
   ScrollView,
   Text,
@@ -63,10 +64,31 @@ function Login() {
     mutate(values);
   };
 
+  const [screenDimensions, setScreenDimensions] = useState<any>(
+    Dimensions.get('window'),
+  );
+
+  useEffect(() => {
+    const onChange = ({window}: any) => {
+      setScreenDimensions(window);
+    };
+
+    Dimensions?.addEventListener('change', onChange);
+  }, [screenDimensions]);
+
+  const {width} = screenDimensions;
+
   return (
     <TouchableWithoutFeedback onPress={hideKeyboard}>
       <ScrollView>
-        <View style={styles.container}>
+        <View
+          style={[
+            styles.container,
+            {
+              marginHorizontal: width >= 500 ? 100 : 20,
+              marginBottom: width >= 500 ? 50 : 0,
+            },
+          ]}>
           <Text style={styles.title}>Welcome back</Text>
           <Text style={styles.description}>
             Let’s get you logged in to get back to building your

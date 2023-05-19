@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {FlatList, View} from 'react-native';
+import {Dimensions, FlatList, View} from 'react-native';
 import Toast from 'react-native-toast-message';
 import {useMutation} from 'react-query';
 import {useAppContext} from '../../contexts/AppContext';
@@ -96,21 +96,37 @@ function CreatePlan() {
 
   const flatListData = [{id: '1', title: 'Single Item'}]; // Array with a single item
 
+  const [screenDimensions, setScreenDimensions] = useState<any>(
+    Dimensions.get('window'),
+  );
+
+  useEffect(() => {
+    const onChange = ({window}: any) => {
+      setScreenDimensions(window);
+    };
+
+    Dimensions?.addEventListener('change', onChange);
+  }, [screenDimensions]);
+
+  const {width} = screenDimensions;
+
   const renderItem = () => (
-    <>
-      <View style={{marginHorizontal: 15}}>
-        <Components
-          handleNext={handleNext}
-          handleBack={handleBack}
-          currentStepIndex={currentStepIndex}
-          setValues={setValues}
-          values={values}
-          setSumit={setSumit}
-          isSuccess={isSuccess}
-          setCurrentStepIndex={setCurrentStepIndex}
-        />
-      </View>
-    </>
+    <View
+      style={{
+        marginHorizontal: width >= 500 ? 100 : 15,
+        marginBottom: width >= 500 ? 100 : 0,
+      }}>
+      <Components
+        handleNext={handleNext}
+        handleBack={handleBack}
+        currentStepIndex={currentStepIndex}
+        setValues={setValues}
+        values={values}
+        setSumit={setSumit}
+        isSuccess={isSuccess}
+        setCurrentStepIndex={setCurrentStepIndex}
+      />
+    </View>
   );
 
   useEffect(() => {

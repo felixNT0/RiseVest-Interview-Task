@@ -1,15 +1,15 @@
 /* eslint-disable no-sequences */
 /* eslint-disable react-native/no-inline-styles */
 import {useNavigation, useRoute} from '@react-navigation/native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import {RFValue} from 'react-native-responsive-fontsize';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useQuery} from 'react-query';
 import navigationString from '../../navigations/navigationString';
@@ -22,21 +22,72 @@ import AppLoader from '../AppLoader/AppLoader';
 import AppNavigationButton from '../AppNavigationButton/AppNavigationButton';
 import PlanInfo from './PlanInfo';
 
-const {width, height} = Dimensions.get('window');
-
 function ViewAPlanDetail() {
   const navigation: any = useNavigation();
 
   const route = useRoute();
   const {id} = route.params as any;
 
-  const {data, isLoading} = useQuery([GET_PLANS_BY_ID], () => getPlanById(id));
+  const {data, isLoading} = useQuery([GET_PLANS_BY_ID], () => getPlanById(id), {
+    enabled: !!id,
+  });
+
+  const [screenDimensions, setScreenDimensions] = useState<any>(
+    Dimensions.get('window'),
+  );
+
+  useEffect(() => {
+    const onChange = ({window}: any) => {
+      setScreenDimensions(window);
+    };
+
+    Dimensions?.addEventListener('change', onChange);
+  }, [screenDimensions]);
+
+  const {width} = screenDimensions;
+
+  const styles = StyleSheet.create({
+    header: {
+      width: width,
+      height: 150,
+      backgroundColor: PRIMARY_COLOR,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      flexDirection: 'row',
+      paddingHorizontal: 15,
+    },
+    wrapper: {marginHorizontal: width >= 500 ? 150 : 15},
+    add_funds_button: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingVertical: 7,
+      borderWidth: 1,
+      backgroundColor: 'rgba(113, 135, 156, 0.1)',
+      borderColor: 'rgba(113, 135, 156, 0.2)',
+      borderRadius: 5,
+      marginTop: 15,
+      marginBottom: 20,
+    },
+    info: {
+      backgroundColor: 'rgba(113, 135, 156, 0.1)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 5,
+      width: 200,
+      height: 30,
+      borderRadius: 30,
+    },
+  });
 
   if (isLoading) {
     return <AppLoader />;
   }
   return (
-    <View>
+    <ScrollView>
       <View style={styles.header}>
         <AppNavigationButton
           IconName="arrow-back-outline"
@@ -50,7 +101,7 @@ function ViewAPlanDetail() {
           style={{
             color: '#FFFFFF',
             fontWeight: '700',
-            fontSize: RFValue(30, height),
+            fontSize: 30,
           }}>
           {data?.plan_name}
         </Text>
@@ -65,7 +116,7 @@ function ViewAPlanDetail() {
           style={{
             color: '#71879C',
             fontWeight: '400',
-            fontSize: RFValue(20, height),
+            fontSize: 20,
             textAlign: 'center',
             marginTop: 20,
           }}>
@@ -75,7 +126,7 @@ function ViewAPlanDetail() {
           style={{
             color: 'black',
             fontWeight: '700',
-            fontSize: RFValue(25, height),
+            fontSize: 25,
             textAlign: 'center',
             marginTop: 5,
           }}>
@@ -91,7 +142,7 @@ function ViewAPlanDetail() {
             <Text
               style={{
                 fontWeight: '400',
-                fontSize: RFValue(13, height),
+                fontSize: 13,
                 color: '#71879C',
               }}>
               Results are updated monthly
@@ -112,7 +163,7 @@ function ViewAPlanDetail() {
           <Text
             style={{
               color: '#0898A0',
-              fontSize: RFValue(20, height),
+              fontSize: 20,
               fontWeight: '700',
             }}>
             Fund plan
@@ -124,45 +175,8 @@ function ViewAPlanDetail() {
         <PlanInfo title={'Invested Amount'} price={data?.invested_amount} />
         <PlanInfo title={'Total Return'} price={data?.total_returns} />
       </View>
-    </View>
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  header: {
-    width: width,
-    height: 150,
-    backgroundColor: PRIMARY_COLOR,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    paddingHorizontal: 15,
-  },
-  wrapper: {marginHorizontal: 15},
-  add_funds_button: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 7,
-    borderWidth: 1,
-    backgroundColor: 'rgba(113, 135, 156, 0.1)',
-    borderColor: 'rgba(113, 135, 156, 0.2)',
-    borderRadius: 5,
-    marginTop: 15,
-    marginBottom: 20,
-  },
-  info: {
-    backgroundColor: 'rgba(113, 135, 156, 0.1)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 5,
-    width: 200,
-    height: 30,
-    borderRadius: 30,
-  },
-});
 
 export default ViewAPlanDetail;
