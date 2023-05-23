@@ -1,8 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Animated, Dimensions, StyleSheet, Text, View} from 'react-native';
-import {RFValue} from 'react-native-responsive-fontsize';
-
-const {height} = Dimensions.get('window');
+import {Animated, StyleSheet, Text, View} from 'react-native';
 
 export default function AppAlert({showPopup, message}: any) {
   const [popupOpacity] = useState(new Animated.Value(0));
@@ -66,6 +63,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
   },
   popupText: {
-    fontSize: RFValue(16, height),
+    fontSize: 16,
   },
 });

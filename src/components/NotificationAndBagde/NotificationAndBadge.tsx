@@ -1,10 +1,7 @@
 import React from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
-import {RFValue} from 'react-native-responsive-fontsize';
+import {StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {PRIMARY_COLOR} from '../../utils/color';
-
-const {height} = Dimensions.get('window');
 
 export default function NotificationAndBadge() {
   return (
@@ -35,7 +32,7 @@ const styles = StyleSheet.create({
   },
   badgeText: {
     color: '#fff',
-    fontSize: RFValue(12, height),
+    fontSize: 12,
     fontWeight: 'bold',
   },
 });

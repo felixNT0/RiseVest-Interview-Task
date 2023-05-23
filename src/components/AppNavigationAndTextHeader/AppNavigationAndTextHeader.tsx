@@ -1,11 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Dimensions, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 
-import {RFValue} from 'react-native-responsive-fontsize';
 import AppNavigationButton from '../AppNavigationButton/AppNavigationButton';
-
-const {height} = Dimensions.get('window');
 
 interface Props {
   IconName: string;
@@ -29,7 +26,7 @@ function AppNavigationAndTextHeader({IconName, onPress, title}: Props) {
           style={{
             color: 'black',
             fontWeight: '700',
-            fontSize: RFValue(25, height),
+            fontSize: 25,
           }}>
           {title}
         </Text>

@@ -1,7 +1,4 @@
-import {Dimensions, StyleSheet} from 'react-native';
-import {RFValue} from 'react-native-responsive-fontsize';
-
-const {height} = Dimensions.get('window');
+import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -15,7 +12,7 @@ export const styles = StyleSheet.create({
     marginTop: 30,
   },
   title: {
-    fontSize: RFValue(25, height),
+    fontSize: 25,
     color: 'black',
     fontWeight: 'bold',
     marginBottom: 32,
@@ -23,7 +20,7 @@ export const styles = StyleSheet.create({
 
   description: {
     color: '#71879C',
-    fontSize: RFValue(15, height),
+    fontSize: 15,
   },
 
   input: {
@@ -38,7 +35,7 @@ export const styles = StyleSheet.create({
 
   already_have_account: {
     color: '#71879C',
-    fontSize: RFValue(15, height),
+    fontSize: 15,
     textAlign: 'center',
     marginTop: 100,
     marginBottom: 7,
@@ -46,7 +43,7 @@ export const styles = StyleSheet.create({
 
   dont_have_account: {
     color: '#71879C',
-    fontSize: RFValue(15, height),
+    fontSize: 15,
     textAlign: 'center',
     marginTop: 30,
     marginBottom: 7,
@@ -76,12 +73,12 @@ export const styles = StyleSheet.create({
     borderRadius: 15,
   },
   label: {
-    fontSize: RFValue(15, height),
+    fontSize: 15,
     fontWeight: '500',
     color: '#0898A0',
   },
   input_container: {
-    fontSize: RFValue(16, height),
+    fontSize: 16,
     width: '100%',
     height: 65,
     fontWeight: '400',

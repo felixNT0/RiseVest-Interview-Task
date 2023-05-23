@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Dimensions, FlatList, StyleSheet, Text, View} from 'react-native';
 import {useQuery} from 'react-query';
 import navigationString from '../../navigations/navigationString';
 import {
@@ -16,7 +16,21 @@ import PlanCard from './PlanCard';
 function AllPlans() {
   const navigation: any = useNavigation();
 
-  const {data, isLoading} = useQuery([GET_ALL_PLANS], getAllPlans);
+  const {data, isLoading} = useQuery([GET_ALL_PLANS], getAllPlans) as any;
+
+  const [screenDimensions, setScreenDimensions] = useState<any>(
+    Dimensions.get('window'),
+  );
+
+  useEffect(() => {
+    const onChange = ({window}: any) => {
+      setScreenDimensions(window);
+    };
+
+    Dimensions?.addEventListener('change', onChange);
+  }, [screenDimensions]);
+
+  const {width} = screenDimensions;
 
   if (!data?.items && isLoading) {
     return <AppLoader />;
@@ -44,7 +58,7 @@ function AllPlans() {
       </View>
       <FlatList
         data={data?.items}
-        numColumns={2}
+        numColumns={width >= 500 ? 4 : 2}
         renderItem={({item}) => (
           <PlanCard
             plan_name={item.plan_name}
@@ -54,7 +68,10 @@ function AllPlans() {
             cardWeight={170}
           />
         )}
-        contentContainerStyle={{marginHorizontal: 15, paddingBottom: 100}}
+        contentContainerStyle={{
+          marginHorizontal: 15,
+          paddingBottom: 100,
+        }}
         keyExtractor={item => item.id}
       />
       <BottomNavigationBar />

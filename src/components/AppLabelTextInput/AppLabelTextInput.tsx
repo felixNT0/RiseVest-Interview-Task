@@ -1,10 +1,8 @@
 import React, {useState} from 'react';
-import {Dimensions, StyleSheet, Text, TextInput, View} from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 
-import {RFValue} from 'react-native-responsive-fontsize';
 import {AppLabelTextInputType} from '../../types/AppLabelTextInputType/AppLabelTextInputType';
 
-const {height} = Dimensions.get('window');
 const AppLabelTextInput = ({
   label,
   placeholder,
@@ -58,12 +56,12 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   label: {
-    fontSize: RFValue(15, height),
+    fontSize: 15,
     fontWeight: '500',
     color: '#0898A0',
   },
   input: {
-    fontSize: RFValue(16, height),
+    fontSize: 16,
     fontWeight: '400',
     color: 'black',
     borderColor: '#0898A0',

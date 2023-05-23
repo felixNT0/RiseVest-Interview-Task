@@ -1,7 +1,4 @@
-import {Dimensions, StyleSheet} from 'react-native';
-import {RFValue} from 'react-native-responsive-fontsize';
-
-const {height} = Dimensions.get('window');
+import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -22,10 +19,10 @@ export const styles = StyleSheet.create({
   },
   header_text: {
     color: 'black',
-    fontSize: RFValue(15, height),
+    fontSize: 15,
   },
   header_user_name: {
-    fontSize: RFValue(20, height),
+    fontSize: 20,
     color: 'black',
   },
   header_earn_bonus_holder: {

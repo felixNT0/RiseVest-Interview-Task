@@ -1,7 +1,4 @@
-import {Dimensions, StyleSheet} from 'react-native';
-import {RFValue} from 'react-native-responsive-fontsize';
-
-const {height} = Dimensions.get('window');
+import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -14,7 +11,7 @@ export const styles = StyleSheet.create({
     marginTop: 50,
   },
   title: {
-    fontSize: RFValue(25, height),
+    fontSize: 25,
     color: 'black',
     fontWeight: 'bold',
     marginBottom: 32,
@@ -22,7 +19,7 @@ export const styles = StyleSheet.create({
 
   description: {
     color: '#71879C',
-    fontSize: RFValue(15, height),
+    fontSize: 15,
   },
 
   input: {
@@ -37,12 +34,12 @@ export const styles = StyleSheet.create({
   forget_password_link: {
     color: '#0898A0',
     marginTop: 30,
-    fontSize: RFValue(15, height),
+    fontSize: 15,
     textAlign: 'center',
   },
   already_have_account: {
     color: '#71879C',
-    fontSize: RFValue(15, height),
+    fontSize: 15,
     textAlign: 'center',
     marginTop: 170,
   },
