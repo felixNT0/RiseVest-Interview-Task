@@ -5,14 +5,29 @@ import {
   Dimensions,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
+import Share from 'react-native-share';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const {height} = Dimensions.get('window');
 
 function HomeQuote({data, isLoading}: any) {
+  const handleShare = async (text: string) => {
+    const options = {
+      message: String(text),
+      // url: require('../../assets/icon.png'),
+    };
+    try {
+      const res = await Share.open(options);
+      console.log(JSON.stringify(res));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View
       style={[
@@ -65,7 +80,8 @@ function HomeQuote({data, isLoading}: any) {
               }}>
               {data?.author}
             </Text>
-            <View
+            <TouchableOpacity
+              onPress={() => handleShare(data?.quote)}
               style={{
                 backgroundColor: 'rgba(255, 255, 255, 0.2)',
                 borderRadius: 45,
@@ -81,7 +97,7 @@ function HomeQuote({data, isLoading}: any) {
                 color={'#FFFFFF'}
                 style={{marginRight: 4}}
               />
-            </View>
+            </TouchableOpacity>
           </View>
         </>
       ) : (

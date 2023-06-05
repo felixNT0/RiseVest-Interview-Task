@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     marginVertical: 10,
     paddingHorizontal: 15,
     paddingVertical: 10,
-    zIndex: 99,
+    zIndex: 1,
     backgroundColor: '#FFFFFF',
   },
   header_text: {

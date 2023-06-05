@@ -28,7 +28,7 @@ function HomeCard() {
         editable={false}
         value={
           showPrice
-            ? `$${currentUser?.total_balance.toFixed(2)}`
+            ? `$${currentUser?.total_balance.toFixed(1)}`
             : `$${currentUser?.total_balance.toFixed(2)}`
         }
       />

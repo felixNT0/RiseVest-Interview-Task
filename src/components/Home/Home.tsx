@@ -5,6 +5,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  RefreshControl,
   Text,
   TouchableOpacity,
   View,
@@ -30,15 +31,19 @@ import HomeNavBar from './HomeNavBar';
 import HomeQuote from './HomeQuote';
 
 export default function Home() {
-  const {data, isLoading: loading} = useQuery(
-    [GET_DAILY_QUOTE],
-    getDailyQuotes,
-  );
+  const {
+    data,
+    isLoading: loading,
+    refetch,
+    isRefetching,
+  } = useQuery([GET_DAILY_QUOTE], getDailyQuotes);
 
-  const {data: plans, isLoading: isloading} = useQuery(
-    [GET_ALL_PLANS],
-    getAllPlans,
-  );
+  const {
+    data: plans,
+    isRefetching: reFetching,
+    isLoading: isloading,
+    refetch: refetchData,
+  } = useQuery([GET_ALL_PLANS], getAllPlans);
 
   const navigation: any = useNavigation();
 
@@ -238,6 +243,17 @@ export default function Home() {
     <View>
       <HomeNavBar />
       <FlatList
+        refreshControl={
+          <RefreshControl
+            style={{zIndex: 100, position: 'absolute'}}
+            colors={['#0898A0']}
+            refreshing={reFetching && isRefetching}
+            onRefresh={() => {
+              refetch();
+              refetchData();
+            }}
+          />
+        }
         data={flatListData}
         renderItem={renderItem}
         keyExtractor={item => item.id}
