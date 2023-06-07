@@ -1,69 +1,51 @@
-import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
-import navigationString from '../../navigations/navigationString';
-import AppNavigationAndTextHeader from '../AppNavigationAndTextHeader/AppNavigationAndTextHeader';
-import CreatePlanTips from '../CreatePlan/CreatePlanTips';
-import AboutExchangeModal from './AboutExchangeModal';
+import ChooseBank from './ChooseBank';
+import ChoosePlan from './ChoosePlan';
+import FundWalletType from './FundWalletType';
+
+const steps = [
+  {key: 1, component: FundWalletType},
+  {key: 2, component: ChoosePlan},
+  {key: 3, component: ChooseBank},
+  // {key: 4, component: CreatePlanFormThree},
+  // {key: 5, component: CreatePlanReview},
+];
 
 function FundWallet() {
-  const navigation: any = useNavigation();
+  const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);
+  const [fundType, setFundType] = useState<string>('');
+  const [planId, setPlanId] = useState<string>('');
 
-  const [modalVisible, setModalVisible] = useState(true);
+  console.log(fundType);
+  console.log(planId);
 
-  const toggleModal = () => {
-    setModalVisible(!modalVisible);
+  const handleNext = ({
+    FundType,
+    PlanId,
+  }: {
+    FundType?: string;
+    PlanId?: string;
+  }) => {
+    if (currentStepIndex < steps.length - 1) {
+      setCurrentStepIndex(currentStepIndex + 1);
+    }
+    if (currentStepIndex === 1 && FundType) {
+      setFundType(FundType as string);
+    }
+    if (currentStepIndex === 2 && PlanId) {
+      setPlanId(PlanId as string);
+    }
   };
 
-  return (
-    <View style={styles.container}>
-      <AppNavigationAndTextHeader
-        IconName="close"
-        onPress={() => {
-          navigation.navigate(navigationString.HOME_SCREEN);
-        }}
-        title="Fund Wallet"
-      />
-      <CreatePlanTips
-        IconName="cash-outline"
-        title="Naira Bank Transfer"
-        description="Timelime - 15 mins"
-        size={20}
-      />
-      <CreatePlanTips
-        IconName="card-outline"
-        title="Naira Debit Card"
-        description="Timelime - 15 mins"
-        size={23}
-      />
-      <CreatePlanTips
-        IconName="wallet-outline"
-        title="Naira Direct Debit"
-        description="Timelime - 15 mins"
-        size={20}
-      />
-      <AboutExchangeModal
-        modalVisible={modalVisible}
-        closeModal={toggleModal}
-      />
-    </View>
-  );
-}
+  const handleBack = () => {
+    if (currentStepIndex > 0) {
+      setCurrentStepIndex(currentStepIndex - 1);
+    }
+  };
 
-const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 15,
-  },
-  dot: {
-    width: 6,
-    height: 6,
-    borderRadius: 5,
-    backgroundColor: '#ccc',
-    marginHorizontal: 5,
-  },
-  activeDot: {
-    backgroundColor: 'black',
-  },
-});
+  const Components = steps[currentStepIndex]?.component as any;
+
+  return <Components handleBack={handleBack} handleNext={handleNext} />;
+}
 
 export default FundWallet;

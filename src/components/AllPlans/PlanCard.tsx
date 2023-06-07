@@ -14,6 +14,8 @@ function PlanCard({
   cardWidth,
   cardHeight,
   bigScreen,
+  fundingCard,
+  onPressFn,
 }: any) {
   const navigation: any = useNavigation();
 
@@ -33,7 +35,11 @@ function PlanCard({
       ]}>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate(navigationString.VIEW_SPECIFIC_PLAN, {id: id});
+          fundingCard
+            ? onPressFn
+            : navigation.navigate(navigationString.VIEW_SPECIFIC_PLAN, {
+                id: id,
+              });
         }}>
         <Text
           style={{
