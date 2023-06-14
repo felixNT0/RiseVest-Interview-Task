@@ -15,14 +15,14 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const {height} = Dimensions.get('window');
 
 function HomeQuote({data, isLoading}: any) {
-  const handleShare = async (text: string) => {
+  const handleShare = async () => {
+    const text = `author: ${data.author}, quote: ${data.quote}`;
     const options = {
       message: String(text),
-      // url: require('../../assets/icon.png'),
+      url: require('../../assets/icon.png'),
     };
     try {
-      const res = await Share.open(options);
-      console.log(JSON.stringify(res));
+      await Share.open(options);
     } catch (error) {
       console.log(error);
     }
@@ -81,7 +81,7 @@ function HomeQuote({data, isLoading}: any) {
               {data?.author}
             </Text>
             <TouchableOpacity
-              onPress={() => handleShare(data?.quote)}
+              onPress={handleShare}
               style={{
                 backgroundColor: 'rgba(255, 255, 255, 0.2)',
                 borderRadius: 45,

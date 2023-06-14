@@ -12,8 +12,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import ErrorBoundary from './src/components/ErrorBoundary/ErrorBoundary';
 import AppProvider from './src/contexts/AppContext';
+import Routes from './src/routes/Index';
 import ErrorScreen from './src/screens/ErrorScreen/ErrorScreen';
-import FundPlanScreen from './src/screens/FundPlan/FundPlanScreen';
 
 const queryClient = new QueryClient();
 
@@ -47,7 +47,7 @@ function App(): JSX.Element {
           <NavigationContainer fallback={<ErrorScreen />}>
             <QueryClientProvider client={queryClient}>
               <AppProvider>
-                <FundPlanScreen />
+                <Routes />
               </AppProvider>
             </QueryClientProvider>
           </NavigationContainer>

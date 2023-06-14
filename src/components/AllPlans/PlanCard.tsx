@@ -36,7 +36,7 @@ function PlanCard({
       <TouchableOpacity
         onPress={() => {
           fundingCard
-            ? onPressFn
+            ? onPressFn()
             : navigation.navigate(navigationString.VIEW_SPECIFIC_PLAN, {
                 id: id,
               });

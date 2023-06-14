@@ -16,9 +16,6 @@ function FundWallet() {
   const [fundType, setFundType] = useState<string>('');
   const [planId, setPlanId] = useState<string>('');
 
-  console.log(fundType);
-  console.log(planId);
-
   const handleNext = ({
     FundType,
     PlanId,

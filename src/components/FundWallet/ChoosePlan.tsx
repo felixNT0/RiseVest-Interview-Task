@@ -1,13 +1,21 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {Dimensions, FlatList, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {useQuery} from 'react-query';
 import {getAllPlans} from '../../queries/GetAllPlansQueries/GetAllPlansQueries';
+import {PRIMARY_COLOR} from '../../utils/color';
 import PlanCard from '../AllPlans/PlanCard';
 import AppNavigationAndTextHeader from '../AppNavigationAndTextHeader/AppNavigationAndTextHeader';
 
 const ChoosePlan = ({handleBack, handleNext}: any) => {
-  const {data} = useQuery(['GET_ALL_PLANS'], getAllPlans) as any;
+  const {data, isLoading} = useQuery(['GET_ALL_PLAN'], getAllPlans) as any;
 
   const [screenDimensions, setScreenDimensions] = useState<any>(
     Dimensions.get('window'),
@@ -35,19 +43,31 @@ const ChoosePlan = ({handleBack, handleNext}: any) => {
         data={data?.items}
         numColumns={width >= 500 ? 4 : 2}
         renderItem={({item}) => (
-          <PlanCard
-            plan_name={item.plan_name}
-            target_amount={item.target_amount}
-            id={item._id || item.id}
-            cardWidth={150}
-            cardWeight={170}
-            fundingCard={true}
-            onPressFn={() => handleNext({PlanId: item._id || item.id})}
-          />
+          <>
+            {!isLoading ? (
+              <PlanCard
+                plan_name={item.plan_name}
+                target_amount={item.target_amount}
+                id={item._id || item.id}
+                cardWidth={150}
+                cardWeight={170}
+                fundingCard={true}
+                onPressFn={() => handleNext({PlanId: item._id || item.id})}
+              />
+            ) : (
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  display: 'flex',
+                }}>
+                <ActivityIndicator size="large" color={PRIMARY_COLOR} />
+              </View>
+            )}
+          </>
         )}
         contentContainerStyle={{
-          marginHorizontal: 15,
-          paddingBottom: 100,
+          paddingBottom: 200,
         }}
         keyExtractor={item => item._id || item.id}
       />
@@ -62,7 +82,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   text: {
-    fontweight: '400',
+    fontWeight: '400',
     fontSize: 15,
     color: '#71879C',
     marginTop: 15,
